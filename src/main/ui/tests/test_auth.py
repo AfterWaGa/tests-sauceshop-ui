@@ -4,7 +4,6 @@ from playwright.sync_api import expect
 class TestAuth:
     def test__auth(self, page):
         page.goto("https://www.saucedemo.com/")
-
         page.locator("#user-name").fill("standard_user")
         page.locator("#password").fill("secret_sauce")
         page.locator("#login-button").click()
@@ -43,20 +42,15 @@ class TestAuth:
         expect(page.locator("#login-button")).to_be_visible()
 
 
-    def test__logout(self, page):
-        page.goto("https://www.saucedemo.com/")
+    def test__logout(self, auth_page):
 
-        page.locator("#user-name").fill("standard_user")
-        page.locator("#password").fill("secret_sauce")
-        page.locator("#login-button").click()
+        expect(auth_page).to_have_url("https://www.saucedemo.com/inventory.html")
 
-        expect(page).to_have_url("https://www.saucedemo.com/inventory.html")
+        auth_page.locator("#react-burger-menu-btn").click()
+        auth_page.locator("#logout_sidebar_link").click()
 
-        page.locator("#react-burger-menu-btn").click()
-        page.locator("#logout_sidebar_link").click()
-
-        page.goto("https://www.saucedemo.com/")
-        expect(page.locator("#login-button")).to_be_visible()
+        auth_page.goto("https://www.saucedemo.com/")
+        expect(auth_page.locator("#login-button")).to_be_visible()
 
 
 
