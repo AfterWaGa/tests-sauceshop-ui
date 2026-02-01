@@ -24,11 +24,3 @@ def page(browser):
     yield page
 
     context.close()
-
-
-@pytest.fixture
-def auth_page(page):
-    login_page = LoginPage(page)
-    login_page.open_page()
-    login_page.login("standard_user", "secret_sauce")
-    return page
